@@ -44,12 +44,6 @@ abstract class SonioxBaseLoader extends BaseDocumentLoader {
     ) {
       throw new Error("Polling interval should be longer than 1000 ms");
     }
-    if (
-      sonioxParams.pollingTimeoutMs &&
-      sonioxParams.pollingTimeoutMs > 3 * 60 * 1000
-    ) {
-      throw new Error("Polling timeout should be shorter than 3 min");
-    }
     this.params = sonioxParams;
     this.options = sonioxOptions;
   }
@@ -69,7 +63,7 @@ abstract class SonioxBaseLoader extends BaseDocumentLoader {
  * // Basic transcription
  * const loader = new SonioxAudioTranscriptLoader(
  *   {
- *     audio: audioBuffer,
+ *     audio: audioBuffer, // or URL string
  *     audioFormat: "mp3"
  *   },
  *   {
@@ -83,7 +77,7 @@ abstract class SonioxBaseLoader extends BaseDocumentLoader {
  * // Two-way translation with speaker diarization
  * const translationLoader = new SonioxAudioTranscriptLoader(
  *   {
- *     audio: audioBuffer,
+ *     audio: audioBuffer, // or URL string
  *     audioFormat: "mp3",
  *     apiKey: "your_api_key",
  *     pollingIntervalMs: 2000,
@@ -118,7 +112,7 @@ abstract class SonioxBaseLoader extends BaseDocumentLoader {
  * // One-way translation
  * const oneWayLoader = new SonioxAudioTranscriptLoader(
  *   {
- *     audio: audioBuffer,
+ *     audio: audioBuffer, // or URL string
  *     audioFormat: "wav"
  *   },
  *   {
@@ -310,19 +304,29 @@ export class SonioxAudioTranscriptLoader extends SonioxBaseLoader {
     let transcriptionId: string | undefined;
 
     try {
-      // Upload file
-      const file = await this.uploadFile(
-        this.params.audio,
-        this.params.audioFormat
-      );
+      const mode: "file" | "url" =
+        typeof this.params.audio === "string" ? "url" : "file";
 
-      fileId = file.id;
+      if (mode === "file") {
+        const file = await this.uploadFile(
+          this.params.audio as Uint8Array,
+          this.params.audioFormat
+        );
+        fileId = file.id;
+      }
 
       const body: SonioxCreateTranscriptionRequest = {
-        file_id: fileId,
         model: this.options?.model || this.DEFAULT_MODEL,
         ...(this.options || {}),
       };
+
+      if (mode === "file") {
+        body.file_id = fileId;
+      }
+
+      if (mode === "url") {
+        body.audio_url = this.params.audio as string;
+      }
 
       const transcription = await this.createTranscription(body);
 
@@ -342,9 +346,7 @@ export class SonioxAudioTranscriptLoader extends SonioxBaseLoader {
           );
         }
 
-        const value = await this.getTranscription(transcriptionId);
-
-        statusResponse = value;
+        statusResponse = await this.getTranscription(transcriptionId);
 
         if (statusResponse.status === "completed") {
           break;

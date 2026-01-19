@@ -100,7 +100,7 @@ export type SonioxTranscriptResponse = {
 };
 
 export type SonioxLoaderParams = {
-  audio: Uint8Array;
+  audio: Uint8Array | string;
   audioFormat: SonioxAudioFormat;
   apiKey?: string;
   apiBaseUrl?: string;

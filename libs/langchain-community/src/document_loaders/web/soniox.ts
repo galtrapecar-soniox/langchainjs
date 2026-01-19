@@ -26,28 +26,32 @@ abstract class SonioxBaseLoader extends BaseDocumentLoader {
     sonioxOptions?: SonioxLoaderOptions
   ) {
     super();
-    let params = sonioxParams;
-    let options = sonioxOptions;
-    if (!params) {
+    if (!sonioxParams) {
       throw new Error("No Soniox params provided");
     }
-    if (!params.apiKey) {
-      params.apiKey = getEnvironmentVariable("SONIOX_API_KEY");
+    if (!sonioxParams.apiKey) {
+      sonioxParams.apiKey = getEnvironmentVariable("SONIOX_API_KEY");
     }
-    if (!params.apiKey) {
+    if (!sonioxParams.apiKey) {
       throw new Error("No Soniox API key provided");
     }
-    if (!params.apiBaseUrl) {
-      params.apiBaseUrl = this.API_BASE_URL;
+    if (!sonioxParams.apiBaseUrl) {
+      sonioxParams.apiBaseUrl = this.API_BASE_URL;
     }
-    if (params.pollingIntervalMs && params.pollingIntervalMs < 1000) {
+    if (
+      sonioxParams.pollingIntervalMs &&
+      sonioxParams.pollingIntervalMs < 1000
+    ) {
       throw new Error("Polling interval should be longer than 1000 ms");
     }
-    if (params.pollingTimeoutMs && params.pollingTimeoutMs > 3 * 60 * 1000) {
+    if (
+      sonioxParams.pollingTimeoutMs &&
+      sonioxParams.pollingTimeoutMs > 3 * 60 * 1000
+    ) {
       throw new Error("Polling timeout should be shorter than 3 min");
     }
-    this.params = params;
-    this.options = options;
+    this.params = sonioxParams;
+    this.options = sonioxOptions;
   }
 
   protected getHeaders() {
@@ -334,7 +338,7 @@ export class SonioxAudioTranscriptLoader extends SonioxBaseLoader {
       while (true) {
         if (Date.now() - startTime > timeoutMs) {
           throw new Error(
-            `Transcription job polling timed out: ${statusResponse}`
+            `Transcription job polling timed out: ${JSON.stringify(statusResponse)}`
           );
         }
 

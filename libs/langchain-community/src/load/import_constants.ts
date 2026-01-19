@@ -172,6 +172,7 @@ export const optionalImportEntrypoints: string[] = [
   "langchain_community/document_loaders/web/recursive_url",
   "langchain_community/document_loaders/web/s3",
   "langchain_community/document_loaders/web/sitemap",
+  "langchain_community/document_loaders/web/soniox",
   "langchain_community/document_loaders/web/sonix_audio",
   "langchain_community/document_loaders/web/confluence",
   "langchain_community/document_loaders/web/couchbase",

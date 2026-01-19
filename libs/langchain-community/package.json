@@ -1504,6 +1504,17 @@
         "default": "./dist/document_loaders/web/sitemap.js"
       }
     },
+    "./document_loaders/web/soniox": {
+      "input": "./src/document_loaders/web/soniox.ts",
+      "require": {
+        "types": "./dist/document_loaders/web/soniox.d.cts",
+        "default": "./dist/document_loaders/web/soniox.cjs"
+      },
+      "import": {
+        "types": "./dist/document_loaders/web/soniox.d.ts",
+        "default": "./dist/document_loaders/web/soniox.js"
+      }
+    },
     "./document_loaders/web/sonix_audio": {
       "input": "./src/document_loaders/web/sonix_audio.ts",
       "require": {

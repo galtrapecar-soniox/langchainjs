@@ -74,6 +74,7 @@ export * as document_loaders__web__s3 from "../document_loaders/web/s3.js";
 export * as document_loaders__web__searchapi from "../document_loaders/web/searchapi.js";
 export * as document_loaders__web__serpapi from "../document_loaders/web/serpapi.js";
 export * as document_loaders__web__sitemap from "../document_loaders/web/sitemap.js";
+export * as document_loaders__web__soniox from "../document_loaders/web/soniox.js";
 export * as document_loaders__web__sonix_audio from "../document_loaders/web/sonix_audio.js";
 export * as document_loaders__web__sort_xyz_blockchain from "../document_loaders/web/sort_xyz_blockchain.js";
 export * as document_loaders__web__spider from "../document_loaders/web/spider.js";

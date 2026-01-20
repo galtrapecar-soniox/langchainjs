@@ -139,7 +139,7 @@ export class SonioxAudioTranscriptLoader extends SonioxBaseLoader {
    */
   private async uploadFile(
     audio: Uint8Array,
-    audioFormat: SonioxAudioFormat
+    audioFormat?: SonioxAudioFormat
   ): Promise<SonioxFileUploadResponse> {
     const blob = new Blob([audio as BlobPart]);
 

@@ -101,7 +101,7 @@ export type SonioxTranscriptResponse = {
 
 export type SonioxLoaderParams = {
   audio: Uint8Array | string;
-  audioFormat: SonioxAudioFormat;
+  audioFormat?: SonioxAudioFormat;
   apiKey?: string;
   apiBaseUrl?: string;
   pollingIntervalMs?: number;

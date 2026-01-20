@@ -64,7 +64,6 @@ abstract class SonioxBaseLoader extends BaseDocumentLoader {
  * const loader = new SonioxAudioTranscriptLoader(
  *   {
  *     audio: audioBuffer, // or URL string
- *     audioFormat: "mp3"
  *   },
  *   {
  *     model: "stt-async-v3",
@@ -113,7 +112,6 @@ abstract class SonioxBaseLoader extends BaseDocumentLoader {
  * const oneWayLoader = new SonioxAudioTranscriptLoader(
  *   {
  *     audio: audioBuffer, // or URL string
- *     audioFormat: "wav"
  *   },
  *   {
  *     model: "stt-async-v3",
